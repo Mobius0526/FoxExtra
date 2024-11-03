@@ -10,6 +10,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import mods.flammpfeil.slashblade.ItemSlashBlade;
 import mods.flammpfeil.slashblade.specialeffect.ISpecialEffect;
 import mods.flammpfeil.slashblade.specialeffect.SpecialEffects;
+import mods.flammpfeil.slashblade.specialeffect.SpecialEffects.State;
 import mods.flammpfeil.slashblade.util.SlashBladeEvent;
 import mods.flammpfeil.slashblade.util.SlashBladeHooks;
 
@@ -28,24 +29,11 @@ public class HS_basic implements ISpecialEffect {
     public void onUpdateItemSlashBlade(final SlashBladeEvent.OnUpdateEvent event) {
         if (!SpecialEffects.isPlayer(event.entity)) return;
         EntityPlayer player = (EntityPlayer) event.entity;
-        World world = player.worldObj;
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(event.blade);
         if (!useBlade(ItemSlashBlade.getComboSequence(tag))) return;
-        switch (SpecialEffects.isEffective(player, event.blade, this)) {
-            case None:
-                player.addPotionEffect(new PotionEffect(Potion.damageBoost.getId(), 25, 1));
-                return;
-            case NonEffective:
-                if (player.getRNG()
-                    .nextInt(4) != 0) {
-                    player.addPotionEffect(new PotionEffect(Potion.damageBoost.getId(), 100, 2));
-                    player.addPotionEffect(new PotionEffect(Potion.moveSpeed.getId(), 100, 2));
-                    return;
-                }
-                break;
-            case Effective:
+        if (SpecialEffects.isEffective(player, event.blade, this) == State.Effective) {
                 player.addPotionEffect(new PotionEffect(Potion.damageBoost.getId(), 50, 2));
-                player.addPotionEffect(new PotionEffect(Potion.heal.getId(), 50, 2));
+                player.addPotionEffect(new PotionEffect(Potion.heal.getId(), 50, 1));
                 player.addPotionEffect(new PotionEffect(Potion.moveSpeed.getId(), 50, 2));
         }
 
