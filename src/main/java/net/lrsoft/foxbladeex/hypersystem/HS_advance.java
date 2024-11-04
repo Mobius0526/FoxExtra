@@ -20,24 +20,19 @@ public class HS_advance implements ISpecialEffect {
     private static final String EffectKey = "HS_advance";
 
     private boolean useBlade(ItemSlashBlade.ComboSequence sequence) {
-        if (sequence.useScabbard)
-            return false;
-        if (sequence == ItemSlashBlade.ComboSequence.None)
-            return false;
-        if (sequence == ItemSlashBlade.ComboSequence.Noutou)
-            return false;
+        if (sequence.useScabbard) return false;
+        if (sequence == ItemSlashBlade.ComboSequence.None) return false;
+        if (sequence == ItemSlashBlade.ComboSequence.Noutou) return false;
         return true;
     }
 
     @SubscribeEvent
     public void onUpdateItemSlashBlade(final SlashBladeEvent.OnUpdateEvent event) {
-        if (!SpecialEffects.isPlayer(event.entity))
-            return;
+        if (!SpecialEffects.isPlayer(event.entity)) return;
         EntityPlayer player = (EntityPlayer) event.entity;
         World world = player.worldObj;
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(event.blade);
-        if (!useBlade(ItemSlashBlade.getComboSequence(tag)))
-            return;
+        if (!useBlade(ItemSlashBlade.getComboSequence(tag))) return;
         if (SpecialEffects.isEffective(player, event.blade, this) == State.Effective) {
 
             player.addPotionEffect(new PotionEffect(Potion.damageBoost.getId(), 100, 3));
@@ -46,10 +41,10 @@ public class HS_advance implements ISpecialEffect {
             if (!world.isRemote) {
                 boolean isBurst = (1 % 2 == 0);
                 EntityWitherSword entityDrive = new EntityWitherSword(
-                        world,
-                        player,
-                        1.0f,
-                        ItemSlashBlade.RepairCount.get(tag) * 2);
+                    world,
+                    player,
+                    1.0f,
+                    ItemSlashBlade.RepairCount.get(tag) * 2);
                 if (entityDrive != null) {
                     entityDrive.setInterval(16);
                     entityDrive.setLifeTime(35);

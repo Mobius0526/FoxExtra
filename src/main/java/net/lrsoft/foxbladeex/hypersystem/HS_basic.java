@@ -4,7 +4,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.world.World;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import mods.flammpfeil.slashblade.ItemSlashBlade;
@@ -32,9 +31,9 @@ public class HS_basic implements ISpecialEffect {
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(event.blade);
         if (!useBlade(ItemSlashBlade.getComboSequence(tag))) return;
         if (SpecialEffects.isEffective(player, event.blade, this) == State.Effective) {
-                player.addPotionEffect(new PotionEffect(Potion.damageBoost.getId(), 50, 2));
-                player.addPotionEffect(new PotionEffect(Potion.heal.getId(), 50, 1));
-                player.addPotionEffect(new PotionEffect(Potion.moveSpeed.getId(), 50, 2));
+            player.addPotionEffect(new PotionEffect(Potion.damageBoost.getId(), 50, 2));
+            player.addPotionEffect(new PotionEffect(Potion.heal.getId(), 50, 1));
+            player.addPotionEffect(new PotionEffect(Potion.moveSpeed.getId(), 50, 2));
         }
 
     }
